@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tuned XGBoost workspace model performance metrics, dataset indicators, and evaluations.">
+  <title>Smart Laptop Advisor — SaaS Workspace Dashboard</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/themes.css?v=6">
+  <link rel="stylesheet" href="assets/css/style.css?v=6">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  
+  <!-- Chart.js for graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Loading Animation Spinner -->
+  <div id="loader-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">💻</div>
+          <span class="logo-text">Smart Advisor</span>
+        </div>
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-inner" title="Collapse Sidebar">◀</button>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-title">Main Workspace</span>
+          <a href="index.html" class="nav-item" id="nav-home">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Overview</span>
+          </a>
+          <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <a href="prediction.html" class="nav-item" id="nav-prediction">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Price Prediction</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Analytics & Tuning</span>
+          <a href="analytics.html" class="nav-item" id="nav-analytics">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">BI Analytics</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Decision Tools</span>
+          <a href="recommendation.html" class="nav-item" id="nav-recommendation">
+            <span class="nav-icon">🎁</span>
+            <span class="nav-label">Recommendations</span>
+          </a>
+          <a href="comparison.html" class="nav-item" id="nav-comparison">
+            <span class="nav-icon">⚖️</span>
+            <span class="nav-label">Compare Laptops</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Info</span>
+          <a href="about.html" class="nav-item" id="nav-about">
+            <span class="nav-icon">ℹ️</span>
+            <span class="nav-label">About Project</span>
+          </a>
+        </div>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="sidebar-status-card">
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Status</span>
+            <span class="sidebar-status-val" id="sb-status">Connecting...</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">R² Score</span>
+            <span class="sidebar-status-val">0.9182</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Dataset</span>
+            <span class="sidebar-status-val" id="sb-dataset">Sample</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+      
+      <!-- Sticky Navigation Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="action-btn" id="sidebar-toggle-header" title="Toggle Sidebar" style="font-size: 18px;">☰</button>
+          <div class="breadcrumb">
+            <span>Smart Laptop Advisor</span>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-active">Dashboard</span>
+          </div>
+        </div>
+        
+        <div class="header-right">
+          <div class="search-box-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-box" placeholder="Quick search specs...">
+          </div>
+          
+          <span class="header-pill" id="header-dataset-size">📦 1,303 rows</span>
+          <span class="header-pill success" id="header-model-status">Live Model</span>
+          <span class="header-pill">R² 0.918</span>
+          
+          <button class="action-btn" id="theme-toggle" title="Switch Theme">🌙</button>
+          <button class="action-btn" title="View Notifications" style="position: relative;">
+            🔔
+            <span style="position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background-color: var(--danger)"></span>
+          </button>
+          <div class="profile-avatar" title="User Profile">JD</div>
+        </div>
+      </header>
+      
+      <!-- Main Content View Area -->
+      <main class="main-content">
+        
+        <!-- Header title -->
+        <div class="page-header">
+          <span class="page-eyebrow">Workspace Hub</span>
+          <h1 class="page-title">SaaS Model Workspace</h1>
+          <p class="page-subtitle">Overview of the machine learning model deployment status, datasets, and pipeline evaluations.</p>
+        </div>
+        
+        <!-- Statistics cards -->
+        <div class="glass-grid">
+          <div class="kpi-card scroll-reveal">
+            <div class="kpi-icon">💰</div>
+            <div class="kpi-value" id="kpi-avg-price">₹0</div>
+            <div class="kpi-label">Average Fair Price</div>
+            <div class="kpi-delta flat">Calculated from dataset</div>
+          </div>
+          
+          <div class="kpi-card scroll-reveal" style="transition-delay: 0.1s">
+            <div class="kpi-icon">📊</div>
+            <div class="kpi-value" id="kpi-med-price">₹0</div>
+            <div class="kpi-label">Median Laptop Price</div>
+            <div class="kpi-delta flat">Midpoint price point</div>
+          </div>
+          
+          <div class="kpi-card scroll-reveal" style="transition-delay: 0.2s">
+            <div class="kpi-icon">🚀</div>
+            <div class="kpi-value" id="kpi-max-price">₹0</div>
+            <div class="kpi-label">Maximum Laptop Value</div>
+            <div class="kpi-delta flat">Highest value device specs</div>
+          </div>
+          
+          <div class="kpi-card scroll-reveal" style="transition-delay: 0.3s">
+            <div class="kpi-icon">🏷️</div>
+            <div class="kpi-value" id="kpi-brands">0</div>
+            <div class="kpi-label">Unique Laptop Brands</div>
+            <div class="kpi-delta flat">Spanning all price tiers</div>
+          </div>
+        </div>
+
+        <!-- Chart comparison row -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+          <!-- Benchmark Chart -->
+          <div class="glass-card scroll-reveal">
+            <h3 class="glass-card-title">Model Candidate Accuracy (R² Score)</h3>
+            <div style="height: 260px; position: relative;">
+              <canvas id="dashboardPreviewChart"></canvas>
+            </div>
+          </div>
+          
+          <!-- Tuning Lift info -->
+          <div class="glass-card hover-lift scroll-reveal" style="transition-delay: 0.1s; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--accent-color); margin-bottom: 8px;">Model Champion</div>
+              <span class="pill success" style="margin-bottom: 12px; font-weight: 600;">Tuned XGBoost</span>
+              <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-top: 10px;">
+                Hyperparameter tuning lifted validation R² by <b style="color: var(--text-primary);">+0.57 pts</b> over base XGBoost and <b style="color: var(--text-primary);">+10 pts</b> over Linear Regression baselines.
+              </p>
+            </div>
+            <div style="border-top: 1px solid var(--border-subtle); padding-top: 14px; font-size: 12px; color: var(--text-tertiary);">
+              Inference lag under <b style="color: var(--text-primary);">5 ms</b> per request.
+            </div>
+          </div>
+        </div>
+
+        <!-- Deployment summary -->
+        <div class="glass-card scroll-reveal" style="margin-top: 24px;">
+          <h3 class="glass-card-title">Pipeline Deployment Log</h3>
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+              <thead>
+                <tr style="border-bottom: 1px solid var(--border-strong); color: var(--text-tertiary);">
+                  <th style="padding: 10px;">Stage</th>
+                  <th style="padding: 10px;">Component</th>
+                  <th style="padding: 10px;">Target Output</th>
+                  <th style="padding: 10px;">Validation Accuracy</th>
+                  <th style="padding: 10px;">Status</th>
+                </tr>
+              </thead>
+              <tbody style="color: var(--text-secondary);">
+                <tr style="border-bottom: 1px solid var(--border-subtle);">
+                  <td style="padding: 12px 10px; font-weight: 600; color: var(--text-primary);">01</td>
+                  <td style="padding: 12px 10px;">Linear Baseline</td>
+                  <td style="padding: 12px 10px; font-family: var(--font-mono);">Price estimate</td>
+                  <td style="padding: 12px 10px; font-family: var(--font-mono);">R² = 0.8176</td>
+                  <td style="padding: 12px 10px;"><span class="pill">Decommissioned</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-subtle);">
+                  <td style="padding: 12px 10px; font-weight: 600; color: var(--text-primary);">02</td>
+                  <td style="padding: 12px 10px;">Decision Tree</td>
+                  <td style="padding: 12px 10px; font-family: var(--font-mono);">Price estimate</td>
+                  <td style="padding: 12px 10px; font-family: var(--font-mono);">R² = 0.8460</td>
+                  <td style="padding: 12px 10px;"><span class="pill">Inactive</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-subtle);">
+                  <td style="padding: 12px 10px; font-weight: 600; color: var(--text-primary);">03</td>
+                  <td style="padding: 12px 10px;">Random Forest</td>
+                  <td style="padding: 12px 10px; font-family: var(--font-mono);">Price estimate</td>
+                  <td style="padding: 12px 10px; font-family: var(--font-mono);">R² = 0.9040</td>
+                  <td style="padding: 12px 10px;"><span class="pill">Inactive</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-subtle);">
+                  <td style="padding: 12px 10px; font-weight: 600; color: var(--text-primary);">04</td>
+                  <td style="padding: 12px 10px;">XGBoost Regressor</td>
+                  <td style="padding: 12px 10px; font-family: var(--font-mono);">Price estimate</td>
+                  <td style="padding: 12px 10px; font-family: var(--font-mono);">R² = 0.9125</td>
+                  <td style="padding: 12px 10px;"><span class="pill">Inactive</span></td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 10px; font-weight: 600; color: var(--text-primary);">05</td>
+                  <td style="padding: 12px 10px; font-weight: 600; color: var(--text-primary);">Tuned XGBoost</td>
+                  <td style="padding: 12px 10px; font-family: var(--font-mono);">Price estimate</td>
+                  <td style="padding: 12px 10px; font-family: var(--font-mono); font-weight: 700; color: var(--accent-color);">R² = 0.9182</td>
+                  <td style="padding: 12px 10px;"><span class="pill success">🏆 Active Champion</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+          <p>Smart Laptop Advisor · Capstone Data Science Project · Powered by Tuned XGBoost</p>
+          <p style="margin-top: 4px; opacity: 0.6;">© 2026 Smart Laptop Advisor. All rights reserved.</p>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  <!-- Global scripts -->
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/sidebar.js"></script>
+  <script src="assets/js/animations.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
