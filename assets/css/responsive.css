@@ -1,0 +1,148 @@
+/* ==========================================================================
+   SMART LAPTOP ADVISOR — RESPONSIVENESS OVERRIDES
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-w: 220px;
+  }
+  
+  .main-content {
+    padding: 24px;
+  }
+  
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-w: 0px;
+    --sidebar-w-collapsed: 0px;
+  }
+  
+  .sidebar {
+    width: 260px;
+    transform: translateX(-100%);
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Mobile menu open class */
+  .sidebar.mobile-open {
+    transform: translateX(0);
+    width: 260px;
+  }
+  
+  .sidebar.mobile-open .nav-label,
+  .sidebar.mobile-open .sidebar-logo,
+  .sidebar.mobile-open .nav-group-title,
+  .sidebar.mobile-open .sidebar-footer {
+    opacity: 1 !important;
+    display: block !important;
+  }
+  
+  .main-wrapper {
+    margin-left: 0 !important;
+  }
+  
+  .header {
+    padding: 0 16px;
+  }
+  
+  .search-box-container {
+    width: 140px;
+  }
+  
+  .header-right {
+    gap: 8px;
+  }
+  
+  .header-pill {
+    display: none; /* Hide performance pills on small mobile headers to save space */
+  }
+  
+  .page-title {
+    font-size: 22px;
+  }
+  
+  .glass-card {
+    padding: 20px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .reco-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .details-row {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Custom toggle button overlay for mobile */
+  .mobile-sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 999;
+    display: none;
+  }
+  
+  .mobile-sidebar-backdrop.active {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 16px;
+  }
+  
+  .page-title {
+    font-size: 20px;
+  }
+  
+  .result-price {
+    font-size: 36px;
+  }
+  
+  .tab-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .rank-row {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+  }
+  
+  .rank-name {
+    width: 100%;
+  }
+  
+  .rank-bar-container {
+    width: 100%;
+  }
+  
+  .rank-val {
+    width: 100%;
+    text-align: left;
+  }
+  
+  .reco-actions {
+    flex-direction: column;
+  }
+}

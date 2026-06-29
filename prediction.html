@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate and predict the fair market value of laptops from their configurations using a tuned XGBoost pipeline.">
+  <title>Smart Laptop Advisor — Price Prediction</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/themes.css?v=6">
+  <link rel="stylesheet" href="assets/css/style.css?v=6">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Loading Animation Spinner -->
+  <div id="loader-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">💻</div>
+          <span class="logo-text">Smart Advisor</span>
+        </div>
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-inner" title="Collapse Sidebar">◀</button>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-title">Main Workspace</span>
+          <a href="index.html" class="nav-item" id="nav-home">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Overview</span>
+          </a>
+          <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <a href="prediction.html" class="nav-item" id="nav-prediction">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Price Prediction</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Analytics & Tuning</span>
+          <a href="analytics.html" class="nav-item" id="nav-analytics">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">BI Analytics</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Decision Tools</span>
+          <a href="recommendation.html" class="nav-item" id="nav-recommendation">
+            <span class="nav-icon">🎁</span>
+            <span class="nav-label">Recommendations</span>
+          </a>
+          <a href="comparison.html" class="nav-item" id="nav-comparison">
+            <span class="nav-icon">⚖️</span>
+            <span class="nav-label">Compare Laptops</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Info</span>
+          <a href="about.html" class="nav-item" id="nav-about">
+            <span class="nav-icon">ℹ️</span>
+            <span class="nav-label">About Project</span>
+          </a>
+        </div>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="sidebar-status-card">
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Status</span>
+            <span class="sidebar-status-val" id="sb-status">Connecting...</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">R² Score</span>
+            <span class="sidebar-status-val">0.9182</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Dataset</span>
+            <span class="sidebar-status-val" id="sb-dataset">Sample</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+      
+      <!-- Sticky Navigation Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="action-btn" id="sidebar-toggle-header" title="Toggle Sidebar" style="font-size: 18px;">☰</button>
+          <div class="breadcrumb">
+            <span>Smart Laptop Advisor</span>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-active">Price Prediction</span>
+          </div>
+        </div>
+        
+        <div class="header-right">
+          <div class="search-box-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-box" placeholder="Quick search specs...">
+          </div>
+          
+          <span class="header-pill" id="header-dataset-size">📦 1,303 rows</span>
+          <span class="header-pill success" id="header-model-status">Live Model</span>
+          <span class="header-pill">R² 0.918</span>
+          
+          <button class="action-btn" id="theme-toggle" title="Switch Theme">🌙</button>
+          <button class="action-btn" title="View Notifications" style="position: relative;">
+            🔔
+            <span style="position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background-color: var(--danger)"></span>
+          </button>
+          <div class="profile-avatar" title="User Profile">JD</div>
+        </div>
+      </header>
+      
+      <!-- Main Content View Area -->
+      <main class="main-content">
+        
+        <!-- Header title -->
+        <div class="page-header">
+          <span class="page-eyebrow">Price Evaluation</span>
+          <h1 class="page-title">Laptop Valuation</h1>
+          <p class="page-subtitle">Configure specifications below. Our Tuned XGBoost model computes fair market prices based on historical trends.</p>
+        </div>
+        
+        <!-- Form container -->
+        <div class="glass-card hover-lift scroll-reveal">
+          <form id="prediction-form">
+            <!-- Section 0: Algorithm Selection -->
+            <div class="form-section" style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px; margin-bottom: 24px;">
+              <div class="form-section-title">⚙️ Predictive Algorithm</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="algorithm">Select Machine Learning Model</label>
+                  <select id="algorithm" class="form-control" required style="border: 1px solid var(--accent-border); background-color: var(--accent-dim); color: var(--accent-color); font-weight: 600;">
+                    <option value="tuned_xgb" selected>🏆 Tuned XGBoost (Active Champion — R² = 0.9182) (Default)</option>
+                    <option value="base_xgb">⚡ XGBoost Regressor (Baseline — R² = 0.9125)</option>
+                    <option value="random_forest">🌲 Random Forest (Simulated — R² = 0.9040)</option>
+                    <option value="decision_tree">🌳 Decision Tree (Simulated — R² = 0.8460)</option>
+                    <option value="linear_regression">📈 Linear Regression (Simulated — R² = 0.8176)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 1: Brand & Build -->
+            <div class="form-section">
+              <div class="form-section-title">🏷️ Brand & Build</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="company">Manufacturer Brand</label>
+                  <select id="company" class="form-control" required>
+                    <option value="Acer">Acer</option>
+                    <option value="Apple">Apple</option>
+                    <option value="Asus">Asus</option>
+                    <option value="Chuwi">Chuwi</option>
+                    <option value="Dell" selected>Dell (Default)</option>
+                    <option value="Fujitsu">Fujitsu</option>
+                    <option value="Google">Google</option>
+                    <option value="HP">HP</option>
+                    <option value="Huawei">Huawei</option>
+                    <option value="LG">LG</option>
+                    <option value="Lenovo">Lenovo</option>
+                    <option value="MSI">MSI</option>
+                    <option value="Mediacom">Mediacom</option>
+                    <option value="Microsoft">Microsoft</option>
+                    <option value="Razer">Razer</option>
+                    <option value="Samsung">Samsung</option>
+                    <option value="Toshiba">Toshiba</option>
+                    <option value="Vero">Vero</option>
+                    <option value="Xiaomi">Xiaomi</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="typename">Form Factor Type</label>
+                  <select id="typename" class="form-control" required>
+                    <option value="2 in 1 Convertible">2 in 1 Convertible</option>
+                    <option value="Gaming">Gaming</option>
+                    <option value="Netbook">Netbook</option>
+                    <option value="Notebook" selected>Notebook (Default)</option>
+                    <option value="Ultrabook">Ultrabook</option>
+                    <option value="Workstation">Workstation</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="os">Operating System</label>
+                  <select id="os" class="form-control" required>
+                    <option value="Chrome">Chrome OS</option>
+                    <option value="Linux">Linux</option>
+                    <option value="Mac">macOS</option>
+                    <option value="Other">Other</option>
+                    <option value="Windows" selected>Windows (Default)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Section 2: Display Specs -->
+            <div class="form-section">
+              <div class="form-section-title">🖥️ Display specifications</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="inches">Inches (Diag. size) (Default: 15.6)</label>
+                  <input type="number" id="inches" class="form-control" min="10.0" max="18.4" value="15.6" step="0.1" required>
+                </div>
+                <div class="form-group">
+                  <label for="res_w">Width Resolution (px)</label>
+                  <select id="res_w" class="form-control">
+                    <option value="1366">1366 px (HD)</option>
+                    <option value="1600">1600 px (HD+)</option>
+                    <option value="1920" selected>1920 px (FHD) (Default)</option>
+                    <option value="2560">2560 px (QHD)</option>
+                    <option value="3840">3840 px (UHD/4K)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="res_h">Height Resolution (px)</label>
+                  <select id="res_h" class="form-control">
+                    <option value="768">768 px</option>
+                    <option value="900">900 px</option>
+                    <option value="1080" selected>1080 px (Default)</option>
+                    <option value="1440">1440 px</option>
+                    <option value="2160">2160 px</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label style="opacity: 0.8">Computed PPI</label>
+                  <div style="background-color: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); height: 42px; display: flex; align-items: center; padding-left: 14px; font-weight: 700; color: var(--accent-color); font-family: var(--font-mono);" id="ppi_computed">141.2</div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <div class="toggle-switch-container">
+                    <span class="toggle-label">Touchscreen display (Default: OFF)</span>
+                    <label class="switch">
+                      <input type="checkbox" id="touchscreen">
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="toggle-switch-container">
+                    <span class="toggle-label">IPS Panel support (Default: ON)</span>
+                    <label class="switch">
+                      <input type="checkbox" id="ips" checked>
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Section 3: Performance Hardware -->
+            <div class="form-section">
+              <div class="form-section-title">⚙️ Performance Hardware</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="ram">Memory size RAM (GB)</label>
+                  <select id="ram" class="form-control" required>
+                    <option value="2">2 GB</option>
+                    <option value="4">4 GB</option>
+                    <option value="6">6 GB</option>
+                    <option value="8" selected>8 GB (Default)</option>
+                    <option value="12">12 GB</option>
+                    <option value="16">16 GB</option>
+                    <option value="24">24 GB</option>
+                    <option value="32">32 GB</option>
+                    <option value="64">64 GB</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="cpu_brand">CPU Brand Tier</label>
+                  <select id="cpu_brand" class="form-control" required>
+                    <option value="AMD Processor">AMD Processor</option>
+                    <option value="Intel Core i3">Intel Core i3</option>
+                    <option value="Intel Core i5" selected>Intel Core i5 (Default)</option>
+                    <option value="Intel Core i7">Intel Core i7</option>
+                    <option value="Other Intel Processor">Other Intel Processor</option>
+                  </select>
+                </div>
+                
+                <div class="form-group slider-container">
+                  <div class="slider-val-row">
+                    <label for="cpu_speed">CPU Speed clock (Default: 2.6 GHz)</label>
+                    <span class="slider-val-badge" id="cpu_speed_val">2.6 GHz</span>
+                  </div>
+                  <input type="range" id="cpu_speed" min="1.0" max="4.5" value="2.6" step="0.1">
+                </div>
+                
+                <div class="form-group">
+                  <label for="gpu_brand">GPU Brand</label>
+                  <select id="gpu_brand" class="form-control" required>
+                    <option value="AMD">AMD</option>
+                    <option value="ARM">ARM</option>
+                    <option value="Intel" selected>Intel (Default)</option>
+                    <option value="Nvidia">Nvidia</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Section 4: Storage & Weight -->
+            <div class="form-section">
+              <div class="form-section-title">💾 Storage & Weight</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="ssd">SSD capacity (GB)</label>
+                  <select id="ssd" class="form-control" required>
+                    <option value="0">0 GB</option>
+                    <option value="128">128 GB</option>
+                    <option value="256" selected>256 GB (Default)</option>
+                    <option value="512">512 GB</option>
+                    <option value="1024">1024 GB (1TB)</option>
+                    <option value="2048">2048 GB (2TB)</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="hdd">HDD capacity (GB)</label>
+                  <select id="hdd" class="form-control" required>
+                    <option value="0" selected>0 GB (Default)</option>
+                    <option value="500">500 GB</option>
+                    <option value="1000">1000 GB (1TB)</option>
+                    <option value="2000">2000 GB (2TB)</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="hybrid">Hybrid storage (GB)</label>
+                  <select id="hybrid" class="form-control" required>
+                    <option value="0" selected>0 GB (Default)</option>
+                    <option value="500">500 GB</option>
+                    <option value="1000">1000 GB (1TB)</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="flash">Flash storage (GB)</label>
+                  <select id="flash" class="form-control" required>
+                    <option value="0" selected>0 GB (Default)</option>
+                    <option value="32">32 GB</option>
+                    <option value="64">64 GB</option>
+                    <option value="128">128 GB</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="weight">Weight (kg) (Default: 2.0)</label>
+                  <input type="number" id="weight" class="form-control" min="0.8" max="4.5" value="2.0" step="0.1" required>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 14px; margin-top: 12px;">
+              <button type="submit" class="btn-primary" style="flex: 1; height: 46px;">⚡ Run Pricing Inference</button>
+              <button type="reset" class="btn-primary" style="flex: 1; height: 46px; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-primary);">🔄 Reset to Defaults</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Output Result container -->
+        <div id="result-card-container" class="result-container">
+          <!-- Filled dynamically in app.js -->
+        </div>
+
+        <!-- Explainability / Local Attribution Container -->
+        <div id="explainability-container" class="result-container" style="display: none; margin-top: 24px;">
+          <div class="glass-card hover-lift">
+            <div class="form-section-title" style="margin-bottom: 16px;">🔍 Local Price Attribution (SHAP Waterfall)</div>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">
+              This breakdown displays how each specific component configuration drives the laptop's valuation up or down relative to the baseline dataset average price (approx. ₹60,500).
+            </p>
+            <div style="height: 320px; position: relative;">
+              <canvas id="explainabilityChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <p>Smart Laptop Advisor · Capstone Data Science Project · Powered by Tuned XGBoost</p>
+          <p style="margin-top: 4px; opacity: 0.6;">© 2026 Smart Laptop Advisor. All rights reserved.</p>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  <!-- Global scripts -->
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/sidebar.js"></script>
+  <script src="assets/js/animations.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

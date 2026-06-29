@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore laptop specification distributions, correlation charts, model candidates comparison, and feature importance analysis.">
+  <title>Smart Laptop Advisor — BI Analytics</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/themes.css?v=6">
+  <link rel="stylesheet" href="assets/css/style.css?v=6">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  
+  <!-- Chart.js for visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Loading Animation Spinner -->
+  <div id="loader-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">💻</div>
+          <span class="logo-text">Smart Advisor</span>
+        </div>
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-inner" title="Collapse Sidebar">◀</button>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-title">Main Workspace</span>
+          <a href="index.html" class="nav-item" id="nav-home">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Overview</span>
+          </a>
+          <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <a href="prediction.html" class="nav-item" id="nav-prediction">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Price Prediction</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Analytics & Tuning</span>
+          <a href="analytics.html#analytics" class="nav-item" id="nav-analytics">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Analytics</span>
+          </a>
+          <a href="analytics.html#performance" class="nav-item" id="nav-performance">
+            <span class="nav-icon">🎯</span>
+            <span class="nav-label">Model Performance</span>
+          </a>
+          <a href="analytics.html#importance" class="nav-item" id="nav-importance">
+            <span class="nav-icon">🔍</span>
+            <span class="nav-label">Feature Importance</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Decision Tools</span>
+          <a href="recommendation.html" class="nav-item" id="nav-recommendation">
+            <span class="nav-icon">🎁</span>
+            <span class="nav-label">Recommendations</span>
+          </a>
+          <a href="comparison.html" class="nav-item" id="nav-comparison">
+            <span class="nav-icon">⚖️</span>
+            <span class="nav-label">Compare Laptops</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Info</span>
+          <a href="about.html" class="nav-item" id="nav-about">
+            <span class="nav-icon">ℹ️</span>
+            <span class="nav-label">About Project</span>
+          </a>
+        </div>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="sidebar-status-card">
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Status</span>
+            <span class="sidebar-status-val" id="sb-status">Connecting...</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">R² Score</span>
+            <span class="sidebar-status-val">0.9182</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Dataset</span>
+            <span class="sidebar-status-val" id="sb-dataset">Sample</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+      
+      <!-- Sticky Navigation Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="action-btn" id="sidebar-toggle-header" title="Toggle Sidebar" style="font-size: 18px;">☰</button>
+          <div class="breadcrumb">
+            <span>Smart Laptop Advisor</span>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-active">BI Analytics</span>
+          </div>
+        </div>
+        
+        <div class="header-right">
+          <div class="search-box-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-box" placeholder="Quick search specs...">
+          </div>
+          
+          <span class="header-pill" id="header-dataset-size">📦 1,303 rows</span>
+          <span class="header-pill success" id="header-model-status">Live Model</span>
+          <span class="header-pill">R² 0.918</span>
+          
+          <button class="action-btn" id="theme-toggle" title="Switch Theme">🌙</button>
+          <button class="action-btn" title="View Notifications" style="position: relative;">
+            🔔
+            <span style="position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background-color: var(--danger)"></span>
+          </button>
+          <div class="profile-avatar" title="User Profile">JD</div>
+        </div>
+      </header>
+      
+      <!-- Main Content View Area -->
+      <main class="main-content">
+        
+        <!-- Tab menu buttons -->
+        <div class="tab-container scroll-reveal">
+          <button class="tab-btn active" data-tab="analytics">📊 Exploratory Analytics</button>
+          <button class="tab-btn" data-tab="performance">🎯 Model Performance</button>
+          <button class="tab-btn" data-tab="importance">🔍 Feature Importance</button>
+        </div>
+        
+        <!-- TAB 1: Exploratory Analytics -->
+        <div class="tab-panel active" id="analytics">
+          <div class="page-header">
+            <span class="page-eyebrow">Data Exploration</span>
+            <h1 class="page-title">Exploratory Analysis</h1>
+            <p class="page-subtitle">Interactive distributions across brands, price ranges, memory modules, processor allocations, and GPU pricing.</p>
+          </div>
+          
+          <!-- Filters section -->
+          <div class="filter-bar scroll-reveal">
+            <div class="form-group multi-select-container" id="brand-filter">
+              <label>Filter by Brand</label>
+              <div class="multi-select-box">
+                <span>All Selected</span>
+                <span>▼</span>
+              </div>
+              <div class="multi-select-options"></div>
+            </div>
+            
+            <div class="form-group multi-select-container" id="type-filter">
+              <label>Filter by Form Factor</label>
+              <div class="multi-select-box">
+                <span>All Selected</span>
+                <span>▼</span>
+              </div>
+              <div class="multi-select-options"></div>
+            </div>
+            
+            <div class="form-group slider-container" style="flex: 1;">
+              <div class="slider-val-row">
+                <label for="analytics-price-range">Max Price Limit</label>
+                <span class="slider-val-badge" id="price-range-val">₹0</span>
+              </div>
+              <input type="range" id="analytics-price-range" min="15000" max="300000" value="300000">
+            </div>
+            
+            <button class="btn-primary" id="export-csv-btn" style="width: auto; height: 42px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); color: var(--text-primary);">📥 Export Filtered CSV</button>
+          </div>
+
+          <div style="font-size: 12.5px; color: var(--text-tertiary); margin-bottom: 16px; font-weight: 500;" id="analytics-records-count">Applying filters...</div>
+
+          <!-- Distribution overview grids -->
+          <div class="page-header" style="margin-top: 32px;">
+            <h2 style="font-size: 18px; font-weight: 700; color: var(--text-primary);">Distributions Overview</h2>
+          </div>
+          
+          <div class="charts-grid">
+            <div class="glass-card chart-card scroll-reveal">
+              <h3 class="glass-card-title">Brand Distribution</h3>
+              <div style="height: 300px; position: relative;">
+                <canvas id="brandChart"></canvas>
+              </div>
+            </div>
+            <div class="glass-card chart-card scroll-reveal" style="transition-delay: 0.1s">
+              <h3 class="glass-card-title">Price Distribution</h3>
+              <div style="height: 300px; position: relative;">
+                <canvas id="priceChart"></canvas>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Specs breakdowns -->
+          <div class="page-header" style="margin-top: 32px;">
+            <h2 style="font-size: 18px; font-weight: 700; color: var(--text-primary);">Hardware Specs Analysis</h2>
+          </div>
+          
+          <div class="charts-grid">
+            <div class="glass-card chart-card scroll-reveal">
+              <h3 class="glass-card-title">RAM (Memory) Distributions</h3>
+              <div style="height: 300px; position: relative;">
+                <canvas id="ramChart"></canvas>
+              </div>
+            </div>
+            <div class="glass-card chart-card scroll-reveal" style="transition-delay: 0.1s">
+              <h3 class="glass-card-title">CPU Brand Market Share</h3>
+              <div style="height: 300px; position: relative;">
+                <canvas id="cpuChart"></canvas>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Value analysis -->
+          <div class="page-header" style="margin-top: 32px;">
+            <h2 style="font-size: 18px; font-weight: 700; color: var(--text-primary);">Value Correlation Analysis</h2>
+          </div>
+          
+          <div class="charts-grid">
+            <div class="glass-card chart-card scroll-reveal">
+              <h3 class="glass-card-title">Average Pricing by GPU Brand</h3>
+              <div style="height: 300px; position: relative;">
+                <canvas id="gpuChart"></canvas>
+              </div>
+            </div>
+            <div class="glass-card chart-card scroll-reveal" style="transition-delay: 0.1s">
+              <h3 class="glass-card-title">Average Storage Size (GB)</h3>
+              <div style="height: 300px; position: relative;">
+                <canvas id="storageChart"></canvas>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Heatmap grid -->
+          <div class="glass-card scroll-reveal" style="margin-top: 24px;">
+            <h3 class="glass-card-title">Correlation Heatmap (Numerical parameters)</h3>
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 12px; font-family: var(--font-mono)">
+                <thead>
+                  <tr style="color: var(--text-tertiary)">
+                    <th style="padding: 10px;">Parameter</th>
+                    <th style="padding: 10px;">Inches</th>
+                    <th style="padding: 10px;">Ram</th>
+                    <th style="padding: 10px;">Weight</th>
+                    <th style="padding: 10px;">PPI</th>
+                    <th style="padding: 10px;">SSD</th>
+                    <th style="padding: 10px;">HDD</th>
+                    <th style="padding: 10px;">CPU Clock</th>
+                    <th style="padding: 10px; font-weight: 700; color: var(--accent-color);">Price</th>
+                  </tr>
+                </thead>
+                <tbody style="color: var(--text-primary)">
+                  <tr style="border-bottom: 1px solid var(--border-subtle)">
+                    <td style="font-weight: 600; padding: 12px 10px; color: var(--text-secondary); text-align: left;">Inches</td>
+                    <td style="background-color: rgba(99,102,241,0.8)">1.00</td>
+                    <td style="background-color: rgba(99,102,241,0.2)">0.24</td>
+                    <td style="background-color: rgba(99,102,241,0.7)">0.83</td>
+                    <td style="background-color: rgba(239,68,68,0.3)">-0.41</td>
+                    <td style="background-color: rgba(99,102,241,0.1)">0.09</td>
+                    <td style="background-color: rgba(99,102,241,0.4)">0.51</td>
+                    <td style="background-color: rgba(99,102,241,0.3)">0.32</td>
+                    <td style="background-color: rgba(99,102,241,0.1); font-weight: 700;">0.07</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border-subtle)">
+                    <td style="font-weight: 600; padding: 12px 10px; color: var(--text-secondary); text-align: left;">Ram</td>
+                    <td style="background-color: rgba(99,102,241,0.2)">0.24</td>
+                    <td style="background-color: rgba(99,102,241,0.8)">1.00</td>
+                    <td style="background-color: rgba(99,102,241,0.3)">0.38</td>
+                    <td style="background-color: rgba(99,102,241,0.2)">0.30</td>
+                    <td style="background-color: rgba(99,102,241,0.5)">0.60</td>
+                    <td style="background-color: rgba(239,68,68,0.1)">-0.10</td>
+                    <td style="background-color: rgba(99,102,241,0.4)">0.50</td>
+                    <td style="background-color: rgba(99,102,241,0.6); font-weight: 700; color: #fff;">0.74</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border-subtle)">
+                    <td style="font-weight: 600; padding: 12px 10px; color: var(--text-secondary); text-align: left;">Weight</td>
+                    <td style="background-color: rgba(99,102,241,0.7)">0.83</td>
+                    <td style="background-color: rgba(99,102,241,0.3)">0.38</td>
+                    <td style="background-color: rgba(99,102,241,0.8)">1.00</td>
+                    <td style="background-color: rgba(239,68,68,0.2)">-0.32</td>
+                    <td style="background-color: rgba(99,102,241,0.1)">0.10</td>
+                    <td style="background-color: rgba(99,102,241,0.4)">0.51</td>
+                    <td style="background-color: rgba(99,102,241,0.2)">0.24</td>
+                    <td style="background-color: rgba(99,102,241,0.2); font-weight: 700;">0.21</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border-subtle)">
+                    <td style="font-weight: 600; padding: 12px 10px; color: var(--text-secondary); text-align: left;">PPI</td>
+                    <td style="background-color: rgba(239,68,68,0.3)">-0.41</td>
+                    <td style="background-color: rgba(99,102,241,0.2)">0.30</td>
+                    <td style="background-color: rgba(239,68,68,0.2)">-0.32</td>
+                    <td style="background-color: rgba(99,102,241,0.8)">1.00</td>
+                    <td style="background-color: rgba(99,102,241,0.4)">0.52</td>
+                    <td style="background-color: rgba(239,68,68,0.2)">-0.29</td>
+                    <td style="background-color: rgba(99,102,241,0.1)">0.19</td>
+                    <td style="background-color: rgba(99,102,241,0.4); font-weight: 700;">0.48</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border-subtle)">
+                    <td style="font-weight: 600; padding: 12px 10px; color: var(--text-secondary); text-align: left;">SSD</td>
+                    <td style="background-color: rgba(99,102,241,0.1)">0.09</td>
+                    <td style="background-color: rgba(99,102,241,0.5)">0.60</td>
+                    <td style="background-color: rgba(99,102,241,0.1)">0.10</td>
+                    <td style="background-color: rgba(99,102,241,0.4)">0.52</td>
+                    <td style="background-color: rgba(99,102,241,0.8)">1.00</td>
+                    <td style="background-color: rgba(239,68,68,0.3)">-0.40</td>
+                    <td style="background-color: rgba(99,102,241,0.3)">0.40</td>
+                    <td style="background-color: rgba(99,102,241,0.5); font-weight: 700;">0.67</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border-subtle)">
+                    <td style="font-weight: 600; padding: 12px 10px; color: var(--text-secondary); text-align: left;">HDD</td>
+                    <td style="background-color: rgba(99,102,241,0.4)">0.51</td>
+                    <td style="background-color: rgba(239,68,68,0.1)">-0.10</td>
+                    <td style="background-color: rgba(99,102,241,0.4)">0.51</td>
+                    <td style="background-color: rgba(239,68,68,0.2)">-0.29</td>
+                    <td style="background-color: rgba(239,68,68,0.3)">-0.40</td>
+                    <td style="background-color: rgba(99,102,241,0.8)">1.00</td>
+                    <td style="background-color: rgba(239,68,68,0.1)">-0.12</td>
+                    <td style="background-color: rgba(239,68,68,0.2); font-weight: 700;">-0.37</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border-subtle)">
+                    <td style="font-weight: 600; padding: 12px 10px; color: var(--text-secondary); text-align: left;">CPU Clock</td>
+                    <td style="background-color: rgba(99,102,241,0.3)">0.32</td>
+                    <td style="background-color: rgba(99,102,241,0.4)">0.50</td>
+                    <td style="background-color: rgba(99,102,241,0.2)">0.24</td>
+                    <td style="background-color: rgba(99,102,241,0.1)">0.19</td>
+                    <td style="background-color: rgba(99,102,241,0.3)">0.40</td>
+                    <td style="background-color: rgba(239,68,68,0.1)">-0.12</td>
+                    <td style="background-color: rgba(99,102,241,0.8)">1.00</td>
+                    <td style="background-color: rgba(99,102,241,0.4); font-weight: 700;">0.43</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border-subtle)">
+                    <td style="font-weight: 600; padding: 12px 10px; color: var(--accent-color); font-weight: 700; text-align: left;">Price</td>
+                    <td style="background-color: rgba(99,102,241,0.1)">0.07</td>
+                    <td style="background-color: rgba(99,102,241,0.6)">0.74</td>
+                    <td style="background-color: rgba(99,102,241,0.2)">0.21</td>
+                    <td style="background-color: rgba(99,102,241,0.4)">0.48</td>
+                    <td style="background-color: rgba(99,102,241,0.5)">0.67</td>
+                    <td style="background-color: rgba(239,68,68,0.2)">-0.37</td>
+                    <td style="background-color: rgba(99,102,241,0.4)">0.43</td>
+                    <td style="background-color: rgba(99,102,241,0.8); font-weight: 700; color: #fff;">1.00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <!-- TAB 2: Model Performance -->
+        <div class="tab-panel" id="performance">
+          <div class="page-header">
+            <span class="page-eyebrow">Tuning Evaluations</span>
+            <h1 class="page-title">Performance Metrics</h1>
+            <p class="page-subtitle">Validation evaluations across baseline models and the champion Tuned XGBoost candidate.</p>
+          </div>
+          
+          <!-- Accuracy card grid -->
+          <div class="glass-grid">
+            <div class="kpi-card scroll-reveal">
+              <span class="pill" style="align-self: flex-start; margin-bottom: 8px;">Baseline</span>
+              <div style="font-size: 11px; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600;">Linear Regression</div>
+              <div class="kpi-value" style="margin-top: 8px; font-size: 26px;">0.8176</div>
+              <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary)">
+                <span>MAE: ₹14,250</span>
+                <span>RMSE: ₹19,840</span>
+              </div>
+            </div>
+            
+            <div class="kpi-card scroll-reveal" style="transition-delay: 0.1s">
+              <span class="pill" style="align-self: flex-start; margin-bottom: 8px;">Basic Tree</span>
+              <div style="font-size: 11px; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600;">Decision Tree</div>
+              <div class="kpi-value" style="margin-top: 8px; font-size: 26px;">0.8460</div>
+              <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary)">
+                <span>MAE: ₹12,180</span>
+                <span>RMSE: ₹16,450</span>
+              </div>
+            </div>
+            
+            <div class="kpi-card scroll-reveal" style="transition-delay: 0.2s">
+              <span class="pill" style="align-self: flex-start; margin-bottom: 8px;">Improved</span>
+              <div style="font-size: 11px; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600;">Random Forest</div>
+              <div class="kpi-value" style="margin-top: 8px; font-size: 26px;">0.9040</div>
+              <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary)">
+                <span>MAE: ₹8,620</span>
+                <span>RMSE: ₹11,260</span>
+              </div>
+            </div>
+            
+            <div class="kpi-card scroll-reveal" style="transition-delay: 0.3s">
+              <span class="pill" style="align-self: flex-start; margin-bottom: 8px;">Strong</span>
+              <div style="font-size: 11px; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600;">Base XGBoost</div>
+              <div class="kpi-value" style="margin-top: 8px; font-size: 26px;">0.9125</div>
+              <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary)">
+                <span>MAE: ₹7,980</span>
+                <span>RMSE: ₹10,480</span>
+              </div>
+            </div>
+            
+            <div class="kpi-card scroll-reveal" style="border-color: var(--accent-border); box-shadow: var(--shadow-glow); transition-delay: 0.4s">
+              <span class="pill success" style="align-self: flex-start; margin-bottom: 8px;">🏆 Champion</span>
+              <div style="font-size: 11px; text-transform: uppercase; color: var(--accent-color); font-weight: 700;">Tuned XGBoost</div>
+              <div class="kpi-value" style="margin-top: 8px; font-size: 26px; color: var(--accent-color);">0.9182</div>
+              <div style="border-top: 1px solid var(--accent-border); padding-top: 10px; margin-top: 10px; display: flex; justify-content: space-between; font-size: 12px; color: var(--accent-color)">
+                <span>MAE: ₹7,340</span>
+                <span>RMSE: ₹9,710</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts evaluations -->
+          <div class="charts-grid" style="margin-top: 32px;">
+            <div class="glass-card scroll-reveal">
+              <h3 class="glass-card-title">R² Accuracy Score Candidates (Higher is better)</h3>
+              <div style="height: 240px; position: relative;">
+                <canvas id="r2ModelChart"></canvas>
+              </div>
+            </div>
+            <div class="glass-card scroll-reveal" style="transition-delay: 0.1s">
+              <h3 class="glass-card-title">Mean Absolute Error MAE (Lower is better)</h3>
+              <div style="height: 240px; position: relative;">
+                <canvas id="maeModelChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card scroll-reveal" style="margin-top: 24px;">
+            <h3 class="glass-card-title">Root Mean Squared Error RMSE (Lower is better)</h3>
+            <div style="height: 240px; position: relative;">
+              <canvas id="rmseModelChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Diagnostics validation plots -->
+          <div class="page-header" style="margin-top: 40px;">
+            <span class="page-eyebrow">Statistical Diagnostics</span>
+            <h2 style="font-size: 18px; font-weight: 700; color: var(--text-primary);">Model Validation Diagnostics</h2>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Real-time evaluation plots comparing model predictions against the historical laptop prices dataset.</p>
+          </div>
+          
+          <div class="charts-grid" style="margin-top: 20px; margin-bottom: 24px;">
+            <div class="glass-card scroll-reveal">
+              <h3 class="glass-card-title">Actual vs. Predicted Prices (INR)</h3>
+              <div style="height: 320px; position: relative;">
+                <canvas id="actualVsPredictedChart"></canvas>
+              </div>
+            </div>
+            <div class="glass-card scroll-reveal" style="transition-delay: 0.1s">
+              <h3 class="glass-card-title">Residuals Error Distribution (INR)</h3>
+              <div style="height: 320px; position: relative;">
+                <canvas id="residualsDistChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- TAB 3: Feature Importance -->
+        <div class="tab-panel" id="importance">
+          <div class="page-header">
+            <span class="page-eyebrow">Parameters Weights</span>
+            <h1 class="page-title">Feature Importance</h1>
+            <p class="page-subtitle">Parameter importance computed by the trained XGBoost model structure, indicating what hardware parameters drive prices.</p>
+          </div>
+          
+          <!-- Rankings progress bars -->
+          <div class="glass-card scroll-reveal">
+            <h3 class="glass-card-title">Relative Feature Weights</h3>
+            
+            <div class="rank-table">
+              <div class="rank-row">
+                <span class="rank-num">01</span>
+                <span class="rank-name">RAM Capacity</span>
+                <div class="rank-bar-container">
+                  <div class="rank-bar-fill" style="width: 100%;"></div>
+                </div>
+                <span class="rank-val">28.4%</span>
+              </div>
+              
+              <div class="rank-row">
+                <span class="rank-num">02</span>
+                <span class="rank-name">Form Factor Type</span>
+                <div class="rank-bar-container">
+                  <div class="rank-bar-fill" style="width: 60%;"></div>
+                </div>
+                <span class="rank-val">17.1%</span>
+              </div>
+              
+              <div class="rank-row">
+                <span class="rank-num">03</span>
+                <span class="rank-name">CPU Brand</span>
+                <div class="rank-bar-container">
+                  <div class="rank-bar-fill" style="width: 54%;"></div>
+                </div>
+                <span class="rank-val">15.4%</span>
+              </div>
+              
+              <div class="rank-row">
+                <span class="rank-num">04</span>
+                <span class="rank-name">CPU Clock Speed</span>
+                <div class="rank-bar-container">
+                  <div class="rank-bar-fill" style="width: 43%;"></div>
+                </div>
+                <span class="rank-val">12.2%</span>
+              </div>
+              
+              <div class="rank-row">
+                <span class="rank-num">05</span>
+                <span class="rank-name">Display PPI Density</span>
+                <div class="rank-bar-container">
+                  <div class="rank-bar-fill" style="width: 35%;"></div>
+                </div>
+                <span class="rank-val">9.8%</span>
+              </div>
+              
+              <div class="rank-row">
+                <span class="rank-num">06</span>
+                <span class="rank-name">SSD Size</span>
+                <div class="rank-bar-container">
+                  <div class="rank-bar-fill" style="width: 30%;"></div>
+                </div>
+                <span class="rank-val">8.7%</span>
+              </div>
+              
+              <div class="rank-row">
+                <span class="rank-num">07</span>
+                <span class="rank-name">GPU Brand Tier</span>
+                <div class="rank-bar-container">
+                  <div class="rank-bar-fill" style="width: 21%;"></div>
+                </div>
+                <span class="rank-val">6.1%</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Importance Explanations Grid -->
+          <div class="page-header" style="margin-top: 40px;">
+            <h2 style="font-size: 18px; font-weight: 700; color: var(--text-primary);">What each parameter means</h2>
+          </div>
+          
+          <div class="glass-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="glass-card scroll-reveal">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h4 style="font-weight: 700; font-size: 14px; color: var(--text-primary);">RAM Memory Size</h4>
+                <span style="font-family: var(--font-mono); color: var(--accent-color); font-weight: 700;">28.4%</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;">
+                Memory is the strongest single pricing driver. Laptops with higher memory size modules directly track premium segments, elevating valuation significantly.
+              </p>
+            </div>
+            
+            <div class="glass-card scroll-reveal" style="transition-delay: 0.1s">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h4 style="font-weight: 700; font-size: 14px; color: var(--text-primary);">Form Factor Type</h4>
+                <span style="font-family: var(--font-mono); color: var(--accent-color); font-weight: 700;">17.1%</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;">
+                Category typenames (Gaming, Ultrabook, Netbooks, Workstation) group specifications profiles together, capturing general hardware classes.
+              </p>
+            </div>
+            
+            <div class="glass-card scroll-reveal">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h4 style="font-weight: 700; font-size: 14px; color: var(--text-primary);">CPU Brand Tier</h4>
+                <span style="font-family: var(--font-mono); color: var(--accent-color); font-weight: 700;">15.4%</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;">
+                Processor class allocations (Intel Core i3, i5, i7, AMD chipsets) represent core pricing thresholds, correlating closely with product positions.
+              </p>
+            </div>
+            
+            <div class="glass-card scroll-reveal" style="transition-delay: 0.1s">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h4 style="font-weight: 700; font-size: 14px; color: var(--text-primary);">CPU Clock Speed</h4>
+                <span style="font-family: var(--font-mono); color: var(--accent-color); font-weight: 700;">12.2%</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;">
+                Operating speeds add extra resolution limits inside matching processor groups, evaluating performance variations on clock rates.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+          <p>Smart Laptop Advisor · Capstone Data Science Project · Powered by Tuned XGBoost</p>
+          <p style="margin-top: 4px; opacity: 0.6;">© 2026 Smart Laptop Advisor. All rights reserved.</p>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  <!-- Global scripts -->
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/sidebar.js"></script>
+  <script src="assets/js/animations.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

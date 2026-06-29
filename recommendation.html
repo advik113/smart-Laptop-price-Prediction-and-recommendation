@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Find the best laptops matching your budget constraints and primary workloads using a spec similarity matching system.">
+  <title>Smart Laptop Advisor — Laptop Recommendations</title>
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/themes.css?v=6">
+  <link rel="stylesheet" href="assets/css/style.css?v=6">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+
+<body>
+
+  <!-- Loading Animation Spinner -->
+  <div id="loader-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">💻</div>
+          <span class="logo-text">Smart Advisor</span>
+        </div>
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-inner" title="Collapse Sidebar">◀</button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-title">Main Workspace</span>
+          <a href="index.html" class="nav-item" id="nav-home">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Overview</span>
+          </a>
+          <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <a href="prediction.html" class="nav-item" id="nav-prediction">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Price Prediction</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <span class="nav-group-title">Analytics & Tuning</span>
+          <a href="analytics.html" class="nav-item" id="nav-analytics">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">BI Analytics</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <span class="nav-group-title">Decision Tools</span>
+          <a href="recommendation.html" class="nav-item" id="nav-recommendation">
+            <span class="nav-icon">🎁</span>
+            <span class="nav-label">Recommendations</span>
+          </a>
+          <a href="comparison.html" class="nav-item" id="nav-comparison">
+            <span class="nav-icon">⚖️</span>
+            <span class="nav-label">Compare Laptops</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <span class="nav-group-title">Info</span>
+          <a href="about.html" class="nav-item" id="nav-about">
+            <span class="nav-icon">ℹ️</span>
+            <span class="nav-label">About Project</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-status-card">
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Status</span>
+            <span class="sidebar-status-val" id="sb-status">Connecting...</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">R² Score</span>
+            <span class="sidebar-status-val">0.9182</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Dataset</span>
+            <span class="sidebar-status-val" id="sb-dataset">Sample</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+
+      <!-- Sticky Navigation Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="action-btn" id="sidebar-toggle-header" title="Toggle Sidebar"
+            style="font-size: 18px;">☰</button>
+          <div class="breadcrumb">
+            <span>Smart Laptop Advisor</span>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-active">Recommendations</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="search-box-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-box" placeholder="Quick search specs...">
+          </div>
+
+          <span class="header-pill" id="header-dataset-size">📦 1,303 rows</span>
+          <span class="header-pill success" id="header-model-status">Live Model</span>
+          <span class="header-pill">R² 0.918</span>
+
+          <button class="action-btn" id="theme-toggle" title="Switch Theme">🌙</button>
+          <button class="action-btn" title="View Notifications" style="position: relative;">
+            🔔
+            <span
+              style="position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background-color: var(--danger)"></span>
+          </button>
+          <div class="profile-avatar" title="User Profile">JD</div>
+        </div>
+      </header>
+
+      <!-- Main Content View Area -->
+      <main class="main-content">
+
+        <!-- Header title -->
+        <div class="page-header">
+          <span class="page-eyebrow">Smart Match</span>
+          <h1 class="page-title">Laptop Recommendations</h1>
+          <p class="page-subtitle">Select your workload focus and max budget. Our recommendation algorithm ranks laptops
+            from the dataset using vector spec comparisons.</p>
+        </div>
+
+        <!-- Filter selections -->
+        <div class="glass-card hover-lift scroll-reveal">
+          <div style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px;">
+            The advisor matches CPU tiers, GPU capabilities, RAM sizes, and storage limits to find your matching build.
+            Select your primary workload:
+          </div>
+
+          <!-- Primary Workload Focus -->
+          <div class="form-group" style="margin-bottom: 24px;">
+            <label style="margin-bottom: 8px; display: block;">Primary Workload Focus</label>
+            <div id="purpose-pill-grid" class="purpose-pill-grid">
+              <!-- Filled dynamically in app.js -->
+            </div>
+          </div>
+
+          <!-- Maximum Budget slider -->
+          <div class="form-group slider-container" style="margin-bottom: 28px;">
+            <div class="slider-val-row">
+              <label for="reco-budget-slider">Maximum Budget limit</label>
+              <span class="slider-val-badge" id="reco-budget-val"
+                style="font-size: 14px; padding: 4px 12px;">₹70,000</span>
+            </div>
+            <input type="range" id="reco-budget-slider" min="20000" max="200000" value="70000" step="2000">
+          </div>
+
+          <button class="btn-primary" id="reco-submit-btn" style="height: 44px;">🔍 Find Best Matches</button>
+        </div>
+
+        <!-- Recommendations Grid Header -->
+        <div class="page-header" style="margin-top: 48px;">
+          <span class="page-eyebrow">Match Outputs</span>
+          <h2 style="font-size: 20px; font-weight: 700; color: var(--text-primary);">Top Spec Matches</h2>
+        </div>
+
+        <!-- Recommendations Results Grid -->
+        <div id="reco-results-grid" class="reco-grid">
+          <!-- Filled dynamically in app.js upon Search click -->
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-tertiary);"
+            class="scroll-reveal">
+            <span style="font-size: 48px; display: block; margin-bottom: 16px;">🔍</span>
+            <p>Click "Find Best Matches" above to compile recommendation outputs from active datasets.</p>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <p>Smart Laptop Advisor · Capstone Data Science Project · Powered by Tuned XGBoost</p>
+          <p style="margin-top: 4px; opacity: 0.6;">© 2026 Smart Laptop Advisor. All rights reserved.</p>
+        </footer>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Global scripts -->
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/sidebar.js"></script>
+  <script src="assets/js/animations.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+
+</html>

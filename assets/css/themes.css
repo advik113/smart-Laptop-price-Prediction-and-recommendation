@@ -1,0 +1,85 @@
+/* ==========================================================================
+   THEME STYLES — SMART LAPTOP ADVISOR
+   ========================================================================== */
+
+/* Dark Mode Variable Definitions (Default) */
+:root {
+  --bg-base: #090a0f;
+  --bg-surface: #0f111a;
+  --bg-elevated: #161824;
+  --bg-hover: rgba(255, 255, 255, 0.05);
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --text-inverse: #0f111a;
+
+  --accent-color: #6366f1;
+  --accent-dim: rgba(99, 102, 241, 0.12);
+  --accent-border: rgba(99, 102, 241, 0.3);
+  --accent-glow: rgba(99, 102, 241, 0.15);
+
+  --accent-secondary: #06b6d4;
+  --accent-secondary-dim: rgba(6, 182, 212, 0.12);
+
+  --success: #10b981;
+  --success-dim: rgba(16, 185, 129, 0.12);
+  --warning: #f59e0b;
+  --warning-dim: rgba(245, 158, 11, 0.12);
+  --danger: #ef4444;
+  --danger-dim: rgba(239, 68, 68, 0.12);
+  --info: #3b82f6;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
+
+  --sidebar-w: 260px;
+  --sidebar-w-collapsed: 0px;
+  --header-h: 70px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --transition-speed: 0.25s;
+}
+
+/* Light Mode Variable Overrides */
+html.light-mode {
+  --bg-base: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f1f5f9;
+  --bg-hover: rgba(0, 0, 0, 0.03);
+
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.12);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+  --text-inverse: #ffffff;
+
+  --accent-color: #4f46e5;
+  --accent-dim: rgba(79, 70, 229, 0.08);
+  --accent-border: rgba(79, 70, 229, 0.2);
+  --accent-glow: rgba(79, 70, 229, 0.1);
+
+  --accent-secondary: #0891b2;
+  --accent-secondary-dim: rgba(8, 145, 178, 0.08);
+
+  --success: #059669;
+  --success-dim: rgba(5, 150, 105, 0.08);
+  --warning: #d97706;
+  --warning-dim: rgba(217, 119, 6, 0.08);
+  --danger: #dc2626;
+  --danger-dim: rgba(220, 38, 38, 0.08);
+  --info: #2563eb;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.08);
+}

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compare two laptop configurations side-by-side, highlight specification differences, and render a performance radar chart.">
+  <title>Smart Laptop Advisor — Laptop Comparison</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/themes.css?v=6">
+  <link rel="stylesheet" href="assets/css/style.css?v=6">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  
+  <!-- Chart.js for the radar comparison graph -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Loading Animation Spinner -->
+  <div id="loader-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">💻</div>
+          <span class="logo-text">Smart Advisor</span>
+        </div>
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-inner" title="Collapse Sidebar">◀</button>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-title">Main Workspace</span>
+          <a href="index.html" class="nav-item" id="nav-home">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Overview</span>
+          </a>
+          <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <a href="prediction.html" class="nav-item" id="nav-prediction">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Price Prediction</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Analytics & Tuning</span>
+          <a href="analytics.html" class="nav-item" id="nav-analytics">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">BI Analytics</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Decision Tools</span>
+          <a href="recommendation.html" class="nav-item" id="nav-recommendation">
+            <span class="nav-icon">🎁</span>
+            <span class="nav-label">Recommendations</span>
+          </a>
+          <a href="comparison.html" class="nav-item" id="nav-comparison">
+            <span class="nav-icon">⚖️</span>
+            <span class="nav-label">Compare Laptops</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Info</span>
+          <a href="about.html" class="nav-item" id="nav-about">
+            <span class="nav-icon">ℹ️</span>
+            <span class="nav-label">About Project</span>
+          </a>
+        </div>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="sidebar-status-card">
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Status</span>
+            <span class="sidebar-status-val" id="sb-status">Connecting...</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">R² Score</span>
+            <span class="sidebar-status-val">0.9182</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Dataset</span>
+            <span class="sidebar-status-val" id="sb-dataset">Sample</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+      
+      <!-- Sticky Navigation Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="action-btn" id="sidebar-toggle-header" title="Toggle Sidebar" style="font-size: 18px;">☰</button>
+          <div class="breadcrumb">
+            <span>Smart Laptop Advisor</span>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-active">Compare Laptops</span>
+          </div>
+        </div>
+        
+        <div class="header-right">
+          <div class="search-box-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-box" placeholder="Quick search specs...">
+          </div>
+          
+          <span class="header-pill" id="header-dataset-size">📦 1,303 rows</span>
+          <span class="header-pill success" id="header-model-status">Live Model</span>
+          <span class="header-pill">R² 0.918</span>
+          
+          <button class="action-btn" id="theme-toggle" title="Switch Theme">🌙</button>
+          <button class="action-btn" title="View Notifications" style="position: relative;">
+            🔔
+            <span style="position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background-color: var(--danger)"></span>
+          </button>
+          <div class="profile-avatar" title="User Profile">JD</div>
+        </div>
+      </header>
+      
+      <!-- Main Content View Area -->
+      <main class="main-content">
+        
+        <!-- Header title -->
+        <div class="page-header">
+          <span class="page-eyebrow">Spec Comparisons</span>
+          <h1 class="page-title">Laptop Comparison</h1>
+          <p class="page-subtitle">Configure two setups below to evaluate hardware parameters and fair pricing differences side-by-side.</p>
+        </div>
+        
+        <!-- Comparison configurations forms -->
+        <div class="glass-card scroll-reveal">
+          <form id="comparison-form">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 24px;">
+              
+              <!-- Laptop A Configuration -->
+              <div>
+                <div style="font-size: 14px; font-weight: 700; color: #6366f1; margin-bottom: 16px; border-bottom: 2px solid #6366f1; padding-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                  <span>💻</span> Laptop A Configuration
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-group" style="width: 100%;">
+                    <label for="a_company">Manufacturer Brand</label>
+                    <select id="a_company" class="form-control" required></select>
+                  </div>
+                  <div class="form-group" style="width: 100%;">
+                    <label for="a_type">Form Factor Type</label>
+                    <select id="a_type" class="form-control" required></select>
+                  </div>
+                </div>
+                
+                <div class="form-row" style="margin-top: 12px;">
+                  <div class="form-group" style="width: 100%;">
+                    <label for="a_ram">RAM (GB)</label>
+                    <select id="a_ram" class="form-control">
+                      <option value="4">4 GB</option>
+                      <option value="8">8 GB</option>
+                      <option value="16">16 GB</option>
+                      <option value="32">32 GB</option>
+                      <option value="64">64 GB</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="width: 100%;">
+                    <label for="a_ssd">SSD storage size</label>
+                    <select id="a_ssd" class="form-control">
+                      <option value="0">0 GB</option>
+                      <option value="128">128 GB</option>
+                      <option value="256">256 GB</option>
+                      <option value="512">512 GB</option>
+                      <option value="1024">1024 GB</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="form-row" style="margin-top: 12px;">
+                  <div class="form-group" style="width: 100%;">
+                    <label for="a_hdd">HDD storage size</label>
+                    <select id="a_hdd" class="form-control">
+                      <option value="0">0 GB</option>
+                      <option value="500">500 GB</option>
+                      <option value="1000">1000 GB</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="width: 100%;">
+                    <label for="a_cpu">Processor CPU Brand</label>
+                    <select id="a_cpu" class="form-control"></select>
+                  </div>
+                </div>
+                
+                <div class="form-row" style="margin-top: 12px;">
+                  <div class="form-group" style="width: 100%;">
+                    <label for="a_speed">CPU speed clock (GHz)</label>
+                    <select id="a_speed" class="form-control">
+                      <option value="1.5">1.5 GHz</option>
+                      <option value="2.0">2.0 GHz</option>
+                      <option value="2.5">2.5 GHz</option>
+                      <option value="3.0">3.0 GHz</option>
+                      <option value="3.5">3.5 GHz</option>
+                      <option value="4.0">4.0 GHz</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="width: 100%;">
+                    <label for="a_gpu">Graphics GPU Brand</label>
+                    <select id="a_gpu" class="form-control"></select>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Laptop B Configuration -->
+              <div>
+                <div style="font-size: 14px; font-weight: 700; color: #06b6d4; margin-bottom: 16px; border-bottom: 2px solid #06b6d4; padding-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                  <span>💻</span> Laptop B Configuration
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-group" style="width: 100%;">
+                    <label for="b_company">Manufacturer Brand</label>
+                    <select id="b_company" class="form-control" required></select>
+                  </div>
+                  <div class="form-group" style="width: 100%;">
+                    <label for="b_type">Form Factor Type</label>
+                    <select id="b_type" class="form-control" required></select>
+                  </div>
+                </div>
+                
+                <div class="form-row" style="margin-top: 12px;">
+                  <div class="form-group" style="width: 100%;">
+                    <label for="b_ram">RAM (GB)</label>
+                    <select id="b_ram" class="form-control">
+                      <option value="4">4 GB</option>
+                      <option value="8">8 GB</option>
+                      <option value="16">16 GB</option>
+                      <option value="32">32 GB</option>
+                      <option value="64">64 GB</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="width: 100%;">
+                    <label for="b_ssd">SSD storage size</label>
+                    <select id="b_ssd" class="form-control">
+                      <option value="0">0 GB</option>
+                      <option value="128">128 GB</option>
+                      <option value="256">256 GB</option>
+                      <option value="512">512 GB</option>
+                      <option value="1024">1024 GB</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="form-row" style="margin-top: 12px;">
+                  <div class="form-group" style="width: 100%;">
+                    <label for="b_hdd">HDD storage size</label>
+                    <select id="b_hdd" class="form-control">
+                      <option value="0">0 GB</option>
+                      <option value="500">500 GB</option>
+                      <option value="1000">1000 GB</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="width: 100%;">
+                    <label for="b_cpu">Processor CPU Brand</label>
+                    <select id="b_cpu" class="form-control"></select>
+                  </div>
+                </div>
+                
+                <div class="form-row" style="margin-top: 12px;">
+                  <div class="form-group" style="width: 100%;">
+                    <label for="b_speed">CPU speed clock (GHz)</label>
+                    <select id="b_speed" class="form-control">
+                      <option value="1.5">1.5 GHz</option>
+                      <option value="2.0">2.0 GHz</option>
+                      <option value="2.5">2.5 GHz</option>
+                      <option value="3.0">3.0 GHz</option>
+                      <option value="3.5">3.5 GHz</option>
+                      <option value="4.0">4.0 GHz</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="width: 100%;">
+                    <label for="b_gpu">Graphics GPU Brand</label>
+                    <select id="b_gpu" class="form-control"></select>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <button type="submit" class="btn-primary" style="height: 46px;">⚖️ Compare Specifications</button>
+          </form>
+        </div>
+
+        <!-- Price Outputs Row -->
+        <div class="comparison-grid" style="margin-top: 36px;">
+          <!-- Laptop A Output -->
+          <div class="glass-card scroll-reveal" style="border-color: rgba(99, 102, 241, 0.4); text-align: center;">
+            <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6366f1; letter-spacing: 0.08em; margin-bottom: 8px;">Laptop A Estimate</div>
+            <div class="result-price" id="cmp-price-a" style="font-size: 38px; color: var(--text-primary); background: none; -webkit-background-clip: unset; background-clip: unset; margin-bottom: 4px;">₹0</div>
+            <div style="font-size: 12px; color: var(--text-tertiary);" id="cmp-desc-a">Specs loading...</div>
+          </div>
+          <!-- Laptop B Output -->
+          <div class="glass-card scroll-reveal" style="border-color: rgba(6, 182, 212, 0.4); text-align: center; transition-delay: 0.1s">
+            <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #06b6d4; letter-spacing: 0.08em; margin-bottom: 8px;">Laptop B Estimate</div>
+            <div class="result-price" id="cmp-price-b" style="font-size: 38px; color: var(--text-primary); background: none; -webkit-background-clip: unset; background-clip: unset; margin-bottom: 4px;">₹0</div>
+            <div style="font-size: 12px; color: var(--text-tertiary);" id="cmp-desc-b">Specs loading...</div>
+          </div>
+        </div>
+
+        <!-- Specification Comparison Table & Radar Row -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; align-items: start;">
+          <!-- Specs Sheet -->
+          <div class="glass-card scroll-reveal">
+            <h3 class="glass-card-title">Specification Comparison</h3>
+            <div style="overflow-x: auto;">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th style="color: #6366f1;">Laptop A</th>
+                    <th>Specification Parameter</th>
+                    <th style="color: #06b6d4;">Laptop B</th>
+                  </tr>
+                </thead>
+                <tbody id="cmp-table-body">
+                  <!-- Filled dynamically in app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- Radar Chart -->
+          <div class="glass-card scroll-reveal" style="transition-delay: 0.1s">
+            <h3 class="glass-card-title">Normalized Comparison Radar</h3>
+            <div style="height: 360px; position: relative;">
+              <canvas id="radarCompareChart"></canvas>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-tertiary); line-height: 1.5; margin-top: 14px; text-align: center;">
+              Radar metrics plot configurations relative to the highest possible standard in our training set. Larger area profiles represent higher hardware capacities.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+          <p>Smart Laptop Advisor · Capstone Data Science Project · Powered by Tuned XGBoost</p>
+          <p style="margin-top: 4px; opacity: 0.6;">© 2026 Smart Laptop Advisor. All rights reserved.</p>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  <!-- Global scripts -->
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/sidebar.js"></script>
+  <script src="assets/js/animations.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="About the Smart Laptop Advisor Capstone project, workflow timeline, algorithms used, and technology stack.">
+  <title>Smart Laptop Advisor — About Project</title>
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/themes.css?v=6">
+  <link rel="stylesheet" href="assets/css/style.css?v=6">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+
+<body>
+
+  <!-- Loading Animation Spinner -->
+  <div id="loader-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">💻</div>
+          <span class="logo-text">Smart Advisor</span>
+        </div>
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-inner" title="Collapse Sidebar">◀</button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-title">Main Workspace</span>
+          <a href="index.html" class="nav-item" id="nav-home">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Overview</span>
+          </a>
+          <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <a href="prediction.html" class="nav-item" id="nav-prediction">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Price Prediction</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <span class="nav-group-title">Analytics & Tuning</span>
+          <a href="analytics.html" class="nav-item" id="nav-analytics">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">BI Analytics</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <span class="nav-group-title">Decision Tools</span>
+          <a href="recommendation.html" class="nav-item" id="nav-recommendation">
+            <span class="nav-icon">🎁</span>
+            <span class="nav-label">Recommendations</span>
+          </a>
+          <a href="comparison.html" class="nav-item" id="nav-comparison">
+            <span class="nav-icon">⚖️</span>
+            <span class="nav-label">Compare Laptops</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <span class="nav-group-title">Info</span>
+          <a href="about.html" class="nav-item" id="nav-about">
+            <span class="nav-icon">ℹ️</span>
+            <span class="nav-label">About Project</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-status-card">
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Status</span>
+            <span class="sidebar-status-val" id="sb-status">Connecting...</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">R² Score</span>
+            <span class="sidebar-status-val">0.9182</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Dataset</span>
+            <span class="sidebar-status-val" id="sb-dataset">Sample</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+
+      <!-- Sticky Navigation Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="action-btn" id="sidebar-toggle-header" title="Toggle Sidebar"
+            style="font-size: 18px;">☰</button>
+          <div class="breadcrumb">
+            <span>Smart Laptop Advisor</span>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-active">About Project</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="search-box-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-box" placeholder="Quick search specs...">
+          </div>
+
+          <span class="header-pill" id="header-dataset-size">📦 1,303 rows</span>
+          <span class="header-pill success" id="header-model-status">Live Model</span>
+          <span class="header-pill">R² 0.918</span>
+
+          <button class="action-btn" id="theme-toggle" title="Switch Theme">🌙</button>
+          <button class="action-btn" title="View Notifications" style="position: relative;">
+            🔔
+            <span
+              style="position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background-color: var(--danger)"></span>
+          </button>
+          <div class="profile-avatar" title="User Profile">JD</div>
+        </div>
+      </header>
+
+      <!-- Main Content View Area -->
+      <main class="main-content">
+
+        <!-- Header title -->
+        <div class="page-header">
+          <span class="page-eyebrow">Project documentation</span>
+          <h1 class="page-title">About the Capstone</h1>
+          <p class="page-subtitle">Learn about our model architecture, parameter weights pipeline, workflow steps, and
+            underlying technology stacks.</p>
+        </div>
+
+        <!-- Project Description Card -->
+        <div class="glass-card hover-lift scroll-reveal" style="margin-bottom: 32px;">
+          <h3 class="glass-card-title">Project Overview</h3>
+          <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.75;">
+            Smart Laptop Advisor was built as a capstone project. Its core regression engine estimates fair market value
+            by training on real configurations listings. By evaluating combinations of processor clocks, GPU tiers,
+            memory channels, and pixel density factors, the XGBoost regressor minimizes price deviations on testing
+            splits to achieve high prediction accuracy.
+          </p>
+        </div>
+
+        <!-- Project Workflow timeline -->
+        <div class="page-header">
+          <span class="page-eyebrow">Timeline</span>
+          <h2 style="font-size: 18px; font-weight: 700; color: var(--text-primary);">Development workflow</h2>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item scroll-reveal">
+            <div class="timeline-dot">1</div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Data Scraping & Collection</h4>
+              <p class="timeline-desc">Gathered real-world listings for 1,303 laptop configurations spanning companies,
+                build parameters, and retail prices in INR.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item scroll-reveal" style="transition-delay: 0.1s">
+            <div class="timeline-dot">2</div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Cleaning & Feature Engineering</h4>
+              <p class="timeline-desc">Parsed storage capacity characters into numerical categories, extracted screen
+                sizes, computed display PPI values from pixel dimensions, and isolated CPU and GPU brand keywords.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item scroll-reveal" style="transition-delay: 0.2s">
+            <div class="timeline-dot">3</div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Model Candidate Benchmarking</h4>
+              <p class="timeline-desc">Trained three regression models side-by-side on uniform train/test splits.
+                Compiled MAE, RMSE, and R² scores to benchmark candidacy.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item scroll-reveal" style="transition-delay: 0.3s">
+            <div class="timeline-dot">4</div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Hyperparameter Grid Search Tuning</h4>
+              <p class="timeline-desc">Ran randomized cross-validation grids on XGBoost params (estimators depth,
+                learning rates, column sub-samples) to maximize generalizability and achieve a champion R² score of
+                0.9182.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item scroll-reveal" style="transition-delay: 0.4s">
+            <div class="timeline-dot">5</div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Workspace Deployment Layout</h4>
+              <p class="timeline-desc">Wrapped the pricing pipeline, BI dashboards, workload matches, and comparison
+                sheets into this high-end interactive SaaS advisor.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technology Used Grid -->
+        <div class="page-header" style="margin-top: 40px;">
+          <span class="page-eyebrow">Dependencies</span>
+          <h2 style="font-size: 18px; font-weight: 700; color: var(--text-primary);">Technology Stack</h2>
+        </div>
+
+        <div class="tech-grid scroll-reveal">
+          <div class="tech-card">
+            <span class="tech-card-icon">🐍</span>
+            <div>
+              <h4 class="tech-card-title">Python 3.10</h4>
+              <p class="tech-card-desc">Underlying pipeline execution, preprocessors, and target double-log encoders.
+              </p>
+            </div>
+          </div>
+
+          <div class="tech-card">
+            <span class="tech-card-icon">📈</span>
+            <div>
+              <h4 class="tech-card-title">XGBoost Regressor</h4>
+              <p class="tech-card-desc">Machine learning regressor training the champion price estimation models.</p>
+            </div>
+          </div>
+
+          <div class="tech-card">
+            <span class="tech-card-icon">🧮</span>
+            <div>
+              <h4 class="tech-card-title">Scikit-learn</h4>
+              <p class="tech-card-desc">Train/test splitting splits, grid cross-validation, and error score estimators.
+              </p>
+            </div>
+          </div>
+
+          <div class="tech-card">
+            <span class="tech-card-icon">🐼</span>
+            <div>
+              <h4 class="tech-card-title">Pandas & NumPy</h4>
+              <p class="tech-card-desc">Data wrangling arrays, column dummy encoding, and matrix computations.</p>
+            </div>
+          </div>
+
+          <div class="tech-card">
+            <span class="tech-card-icon">🎨</span>
+            <div>
+              <h4 class="tech-card-title">SaaS UI Shell</h4>
+              <p class="tech-card-desc">Responsive grids, glassmorphism cards, theme controls, and transitions.</p>
+            </div>
+          </div>
+
+          <div class="tech-card">
+            <span class="tech-card-icon">📊</span>
+            <div>
+              <h4 class="tech-card-title">Chart.js</h4>
+              <p class="tech-card-desc">Interactive canvas visualizations for BI distributions and candidate radars.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Developer profile bio -->
+        <div class="page-header" style="margin-top: 48px;">
+          <span class="page-eyebrow">Developer Profile</span>
+          <h2 style="font-size: 18px; font-weight: 700; color: var(--text-primary);">Capstone Author</h2>
+        </div>
+
+        <div class="glass-card scroll-reveal" style="display: flex; gap: 24px; align-items: center;">
+          <div
+            style="background-color: var(--accent-dim); border: 1px solid var(--accent-border); width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--accent-color); flex-shrink: 0;">
+            🎓
+          </div>
+          <div>
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">Data Science
+              Project</h3>
+            <span
+              style="font-size: 11.5px; font-weight: 600; color: var(--accent-color); text-transform: uppercase;">Project
+              Member =</span>
+            <span>Aman,</span>
+            <span>Akshay,</span>
+            <span>Amit</span>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-top: 8px;">
+              Designed and built the smart price estimator pipeline as a graduation project, optimizing inference times,
+              parameter transformations, and feature weights comparisons.
+            </p>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <p>Smart Laptop Advisor · Capstone Data Science Project · Powered by Tuned XGBoost</p>
+          <p style="margin-top: 4px; opacity: 0.6;">© 2026 Smart Laptop Advisor. All rights reserved.</p>
+        </footer>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Global scripts -->
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/sidebar.js"></script>
+  <script src="assets/js/animations.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+
+</html>

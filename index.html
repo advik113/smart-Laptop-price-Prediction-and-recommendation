@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI-grade Laptop Price Prediction and Recommendation System - Final Year Capstone Project. Built with Tuned XGBoost (R² = 0.918) and a premium SaaS interface.">
+  <title>Smart Laptop Advisor — AI Price Intelligence</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/themes.css?v=6">
+  <link rel="stylesheet" href="assets/css/style.css?v=6">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+  <!-- Loading Animation Spinner -->
+  <div id="loader-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">💻</div>
+          <span class="logo-text">Smart Advisor</span>
+        </div>
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-inner" title="Collapse Sidebar">◀</button>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-title">Main Workspace</span>
+          <a href="index.html" class="nav-item" id="nav-home">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Overview</span>
+          </a>
+          <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <a href="prediction.html" class="nav-item" id="nav-prediction">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Price Prediction</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Analytics & Tuning</span>
+          <a href="analytics.html" class="nav-item" id="nav-analytics">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">BI Analytics</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Decision Tools</span>
+          <a href="recommendation.html" class="nav-item" id="nav-recommendation">
+            <span class="nav-icon">🎁</span>
+            <span class="nav-label">Recommendations</span>
+          </a>
+          <a href="comparison.html" class="nav-item" id="nav-comparison">
+            <span class="nav-icon">⚖️</span>
+            <span class="nav-label">Compare Laptops</span>
+          </a>
+        </div>
+        
+        <div class="nav-group">
+          <span class="nav-group-title">Info</span>
+          <a href="about.html" class="nav-item" id="nav-about">
+            <span class="nav-icon">ℹ️</span>
+            <span class="nav-label">About Project</span>
+          </a>
+        </div>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="sidebar-status-card">
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Status</span>
+            <span class="sidebar-status-val" id="sb-status">Connecting...</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">R² Score</span>
+            <span class="sidebar-status-val">0.9182</span>
+          </div>
+          <div class="sidebar-status-row">
+            <span class="sidebar-status-key">Dataset</span>
+            <span class="sidebar-status-val" id="sb-dataset">Sample</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+      
+      <!-- Sticky Navigation Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="action-btn" id="sidebar-toggle-header" title="Toggle Sidebar" style="font-size: 18px;">☰</button>
+          <div class="breadcrumb">
+            <span>Smart Laptop Advisor</span>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-active">Overview</span>
+          </div>
+        </div>
+        
+        <div class="header-right">
+          <div class="search-box-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-box" placeholder="Quick search specs...">
+          </div>
+          
+          <span class="header-pill" id="header-dataset-size">📦 1,303 rows</span>
+          <span class="header-pill success" id="header-model-status">Live Model</span>
+          <span class="header-pill">R² 0.918</span>
+          
+          <button class="action-btn" id="theme-toggle" title="Switch Theme">🌙</button>
+          <button class="action-btn" title="View Notifications" style="position: relative;">
+            🔔
+            <span style="position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background-color: var(--danger)"></span>
+          </button>
+          <div class="profile-avatar" title="User Profile">JD</div>
+        </div>
+      </header>
+      
+      <!-- Main Content View Area -->
+      <main class="main-content">
+        
+        <!-- Hero Section -->
+        <div class="page-header" style="text-align: center; max-width: 800px; margin: 0 auto 48px;">
+          <span class="page-eyebrow">Data Science Capstone Project</span>
+          <h1 class="page-title" style="font-size: 42px; line-height: 1.2; margin-bottom: 16px;">
+            Estimate laptop market prices with <span class="grad-text">AI-grade precision.</span>
+          </h1>
+          <p class="page-subtitle" style="font-size: 15px; margin: 0 auto;">
+            An end-to-end Machine Learning system that predicts fair market prices from real-world laptop specifications (RAM, SSD, CPU speed, PPI resolutions, OS features) powered by a tuned XGBoost pipeline.
+          </p>
+          <div style="margin-top: 32px; display: flex; justify-content: center; gap: 14px;">
+            <button class="btn-primary" onclick="location.href='prediction.html'" style="width: auto; padding: 12px 28px;">🚀 Predict Price</button>
+            <button class="btn-primary" onclick="location.href='analytics.html'" style="width: auto; padding: 12px 28px; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-primary);">📊 View Analytics</button>
+          </div>
+        </div>
+        
+        <!-- Statistics Highlights Grid -->
+        <div class="page-header">
+          <span class="page-eyebrow">System Snapshot</span>
+          <h2 style="font-size: 20px; font-weight: 700; color: var(--text-primary);">Pipeline Highlights</h2>
+        </div>
+        
+        <div class="glass-grid">
+          <div class="kpi-card scroll-reveal">
+            <div class="kpi-icon">📦</div>
+            <div class="kpi-value">8,650</div>
+            <div class="kpi-label">Cleaned Dataset Rows</div>
+            <div class="kpi-delta up">▲ Scraped & Wrangled</div>
+          </div>
+          <div class="kpi-card scroll-reveal" style="transition-delay: 0.1s">
+            <div class="kpi-icon">📊</div>
+            <div class="kpi-value">7,462</div>
+            <div class="kpi-label">Market Analysis Samples</div>
+            <div class="kpi-delta up">✔ EDA & Trend Analysis</div>
+          </div>
+          <div class="kpi-card scroll-reveal" style="transition-delay: 0.2s">
+            <div class="kpi-icon">🎯</div>
+            <div class="kpi-value">0.9182</div>
+            <div class="kpi-label">XGBoost Test R² Score</div>
+            <div class="kpi-delta up">▲ +0.57 pts tuning lift</div>
+          </div>
+          <div class="kpi-card scroll-reveal" style="transition-delay: 0.3s">
+            <div class="kpi-icon">🧬</div>
+            <div class="kpi-value">17</div>
+            <div class="kpi-label">Engineered Features</div>
+            <div class="kpi-delta flat">● PPI, Ratios, & One-Hots</div>
+          </div>
+        </div>
+        
+        <!-- Quick Action Portal Links -->
+        <div class="page-header" style="margin-top: 48px;">
+          <span class="page-eyebrow">Interactive Hub</span>
+          <h2 style="font-size: 20px; font-weight: 700; color: var(--text-primary);">Explore Workspace</h2>
+        </div>
+        
+        <div class="glass-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+          <div class="glass-card hover-lift scroll-reveal" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-size: 24px; margin-bottom: 12px;">💰</div>
+              <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Price Predictor</h3>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+                Enter customized device specs to get an instant market value prediction back from our models.
+              </p>
+            </div>
+            <button class="reco-btn primary" onclick="location.href='prediction.html'">Predict Specs →</button>
+          </div>
+          
+          <div class="glass-card hover-lift scroll-reveal" style="display: flex; flex-direction: column; justify-content: space-between; transition-delay: 0.1s">
+            <div>
+              <div style="font-size: 24px; margin-bottom: 12px;">📊</div>
+              <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">BI Dashboards</h3>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+                Explore correlations, average pricing metrics, brand shares, and model test candidates.
+              </p>
+            </div>
+            <button class="reco-btn primary" onclick="location.href='analytics.html'">Open Dashboards →</button>
+          </div>
+          
+          <div class="glass-card hover-lift scroll-reveal" style="display: flex; flex-direction: column; justify-content: space-between; transition-delay: 0.2s">
+            <div>
+              <div style="font-size: 24px; margin-bottom: 12px;">🎁</div>
+              <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Match Recommendations</h3>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+                Specify a budget limits and primary workloads (gaming, coding) to find your matching build.
+              </p>
+            </div>
+            <button class="reco-btn primary" onclick="location.href='recommendation.html'">Get Matches →</button>
+          </div>
+          
+          <div class="glass-card hover-lift scroll-reveal" style="display: flex; flex-direction: column; justify-content: space-between; transition-delay: 0.3s">
+            <div>
+              <div style="font-size: 24px; margin-bottom: 12px;">⚖️</div>
+              <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Compare Laptops</h3>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+                Compare side-by-side configurations to identify performance differences and score value ratios.
+              </p>
+            </div>
+            <button class="reco-btn primary" onclick="location.href='comparison.html'">Compare builds →</button>
+          </div>
+        </div>
+        
+        <!-- Dataset Overview & Recent Activity Log -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 48px;">
+          <!-- Left side: Overview card -->
+          <div class="glass-card scroll-reveal">
+            <h3 class="glass-card-title">Dataset Characteristics</h3>
+            <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px;">
+              The system utilizes a curated collection of laptops built from popular consumer listings. Feature engineering extract PPI from height/width resolutions, groups operating systems, and isolates hardware details like SSD capacities and CPU clocks to train our models.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; border-top: 1px solid var(--border-subtle); padding-top: 20px;">
+              <div>
+                <span style="font-size: 11px; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600;">Log Transforms</span>
+                <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--accent-color); margin-top: 4px;">y = ln(ln(Price))</div>
+              </div>
+              <div>
+                <span style="font-size: 11px; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600;">Validation MAE</span>
+                <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--accent-color); margin-top: 4px;">₹7,340</div>
+              </div>
+              <div>
+                <span style="font-size: 11px; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600;">Inference Delay</span>
+                <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--accent-color); margin-top: 4px;">&lt; 5 ms</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right side: Recent Activity -->
+          <div class="glass-card scroll-reveal" style="transition-delay: 0.1s;">
+            <h3 class="glass-card-title">Recent Activity</h3>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div style="display: flex; gap: 12px; font-size: 12.5px;">
+                <div style="color: var(--success); font-weight: 700;">●</div>
+                <div>
+                  <div style="font-weight: 600; color: var(--text-primary);">Tuned XGBoost online</div>
+                  <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">Deployed champion weights</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 12px; font-size: 12.5px;">
+                <div style="color: var(--accent-color); font-weight: 700;">●</div>
+                <div>
+                  <div style="font-weight: 600; color: var(--text-primary);">1,303 row source verified</div>
+                  <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">Caches reloaded from storage</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 12px; font-size: 12.5px;">
+                <div style="color: var(--warning); font-weight: 700;">●</div>
+                <div>
+                  <div style="font-weight: 600; color: var(--text-primary);">Test candidates compiled</div>
+                  <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">Random Forest & Regression metrics log</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+          <p>Smart Laptop Advisor · Capstone Data Science Project · Powered by Tuned XGBoost</p>
+          <p style="margin-top: 4px; opacity: 0.6;">© 2026 Smart Laptop Advisor. All rights reserved.</p>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  <!-- Global scripts -->
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/sidebar.js"></script>
+  <script src="assets/js/animations.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
